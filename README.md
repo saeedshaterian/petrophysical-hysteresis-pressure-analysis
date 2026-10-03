@@ -158,29 +158,25 @@ A value of 0% represents complete recovery relative to the defined initial refer
 This index is introduced specifically for the computational analysis in this repository and should not be interpreted as a universally standardized hysteresis metric.
 
 ---
-
 ## Figures
-
-The repository currently includes:
 
 ### Pressure response
 
-* `figures/B9_porosity_pressure.png`
-* `figures/B9_permeability_pressure.png`
+![B9 Porosity Pressure Response](figures/B9_porosity_pressure.png)
+
+![B9 Permeability Pressure Response](figures/B9_permeability_pressure.png)
 
 ### Hysteresis and pressure-history response
 
-* `figures/B9_porosity_hysteresis.png`
-* `figures/B9_permeability_hysteresis.png`
+![B9 Porosity Hysteresis](figures/B9_porosity_hysteresis.png)
+
+![B9 Permeability Hysteresis](figures/B9_permeability_hysteresis.png)
 
 ### Recovery analysis
 
-* `figures/B9_recovery_comparison.png`
-* `figures/B9_residual_loss_comparison.png`
+![B9 Recovery Comparison](figures/B9_recovery_comparison.png)
 
-These figures are generated programmatically from the dataset.
-
----
+![B9 Residual Loss Comparison](figures/B9_residual_loss_comparison.png)
 
 ## Interpretation
 
