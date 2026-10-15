@@ -93,9 +93,9 @@ The analysis scripts explore relationships between petrophysical properties, pre
 
 Associated CSV files contain model coefficients, predictions, comparison metrics, and selected holdout results.
 
-### 3. FEM-based numerical investigation
+### 3. FEM-Based Numerical Investigation
 
-The FEM-related scripts explore pressure-dependent mechanical behavior, loading history, recovery inputs, time-dependent responses, and mesh sensitivity.
+The FEM workflow explores pressure-dependent mechanical behavior, pressure-history effects, recovery inputs, time-dependent responses, and numerical sensitivity in an axisymmetric representation of a carbonate rock sample.
 
 Representative scripts include:
 
@@ -106,11 +106,38 @@ Representative scripts include:
 - `analysis/fem_history_time_sweep.py`
 - `analysis/fem_mesh_convergence.py`
 - `analysis/fem_independent_validation.py`
+- `analysis/fem_parameter_sensitivity.py`
+- `analysis/fem_axial_benchmark.py`
 
-These numerical investigations are ongoing. Numerical convergence, agreement with an analytical benchmark, and independent physical validation are distinct requirements; success in one does not establish the others.
+#### Parameter Sensitivity
 
-In particular, the independent-validation results should be considered preliminary until the boundary conditions, reference solution, displacement errors, and equilibrium checks have been reviewed and the relevant tests pass.
+`analysis/fem_parameter_sensitivity.py` examines the response to selected combinations of Young's modulus and Poisson's ratio. The assumed material parameters are illustrative and are not independently calibrated B9 properties.
 
+Under the current uniform hydrostatic loading and isotropic eigenstrain assumptions, the computed response is governed primarily by the bulk modulus. Different combinations of Young's modulus and Poisson's ratio that produce the same bulk modulus yield the same displacement response in the tested cases. The sensitivity results therefore do not establish independent sensitivity to these two parameters under this loading configuration.
+
+Outputs:
+
+- `figures/fem_parameter_sensitivity.csv`
+- `figures/fem_sensitivity_axial.png`
+- `figures/fem_sensitivity_radial.png`
+
+#### Axial Analytical Benchmark
+
+`analysis/fem_axial_benchmark.py` tests the axisymmetric linear-elastic implementation under uniform axial compression with a traction-free lateral surface. FEM displacement results are compared with analytical predictions for axial shortening and Poisson-related radial expansion across 25 combinations of assumed elastic parameters.
+
+For the tested mesh and benchmark setup, the maximum reported relative errors for both axial and radial displacement are approximately \(10^{-11}\%\), effectively zero at the reported numerical precision. This demonstrates agreement with the analytical solution for this specific homogeneous, isotropic, linear-elastic benchmark. It does not validate the pressure-history constitutive assumptions or the porosity-derived eigenstrains used in the separate history model.
+
+Output:
+
+- `figures/fem_axial_benchmark.csv`
+
+#### Interpretation and Validation Status
+
+The FEM workflow uses illustrative elastic parameters where independent sample-specific calibration is unavailable. History-related isotropic eigenstrains are inferred from porosity changes under a constant-grain-volume assumption; they are not directly measured mechanical strains. Predicted displacements must therefore be interpreted as model outputs rather than experimentally verified deformation measurements.
+
+Numerical convergence, agreement with an analytical benchmark, verification of equilibrium and boundary conditions, and independent physical validation are distinct requirements. Success in one does not establish the others. In particular, the axial benchmark checks the numerical implementation for a separate loading case; it does not independently validate the history-dependent constitutive law.
+
+Further work should examine the model's equilibrium and boundary-condition checks, establish defensible sample-specific elastic parameters, and compare history-dependent displacement predictions with independent mechanical measurements where available.
 
 ## Repository Structure
 
@@ -132,9 +159,11 @@ petrophysical-hysteresis-pressure-analysis/
 |   |-- fem_hysteresis_model.py
 |   |-- fem_history_fem.py
 |   |-- fem_pressure_sweep.py
-|   |-- fem_history_time_sweep.py
+|   |   |-- fem_history_time_sweep.py
 |   |-- fem_mesh_convergence.py
-|   `-- fem_independent_validation.py
+|   |-- fem_independent_validation.py
+|   |-- fem_parameter_sensitivity.py
+|   `-- fem_axial_benchmark.py
 |-- data/
 |   |-- experimental_data.csv
 |   |-- b6_acoustic_elastic_properties.csv
