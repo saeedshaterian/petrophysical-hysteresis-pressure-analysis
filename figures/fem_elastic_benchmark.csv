@@ -1,0 +1,2 @@
+pressure_psi,pressure_MPa,young_modulus_GPa,poisson_ratio,bulk_modulus_GPa,mesh_elements,fem_axial_shortening_mm,analytical_axial_shortening_mm,axial_error_pct,fem_radial_contraction_mm,analytical_radial_contraction_mm,radial_error_pct
+5700.0,39.300116570099995,11.244,0.191,6.064724919093851,1600,0.14727141975356767,0.14727141975356992,1.5276008825554138e-12,0.04071672429385164,0.04071672429385146,4.493463552876161e-13

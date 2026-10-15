@@ -1,0 +1,2 @@
+sample,current_pressure_psi,maximum_history_pressure_psi,young_modulus_GPa_assumed,poisson_ratio_assumed,initial_porosity_pct,post_loading_porosity_pct,inferred_volumetric_strain_proxy,isotropic_eigenstrain_per_direction,elastic_axial_shortening_mm,history_axial_shortening_mm,elastic_radial_contraction_mm,history_radial_contraction_mm,mesh_elements
+B9,5700.0,7000.0,11.244,0.191,13.632,12.534999999999998,-0.012542159721031343,-0.004180719907010448,0.14727141975356992,0.43231290301353575,0.04071672429385146,0.11952329454099891,1600

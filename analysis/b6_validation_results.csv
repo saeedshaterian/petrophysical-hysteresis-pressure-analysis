@@ -1,0 +1,3 @@
+sample,stage,vp_m_s,vs_m_s,poisson_ratio_reported,young_modulus_GPa_reported,shear_modulus_GPa_reported,source_note,poisson_ratio_calculated,poisson_ratio_difference,young_from_reported_G_nu_GPa,young_from_velocity_nu_GPa,young_modulus_difference_GPa,density_implied_kg_m3
+B6,before_hysteresis_test,2095.833,1294.49,0.191,11.244,4.718,Adjacent samples and RIPI database; not necessarily the same physical specimen,0.19160460781252195,0.0006046078125219456,11.238276,11.243981079318957,-0.005723999999998952,2815.532448527166
+B6,after_hysteresis_test,4435.29,2485.7,0.271,36.623,14.407,Measurements on the original research specimens at RIPI after the hysteresis test,0.27104194944430776,4.1949444307742834e-05,36.622594,36.62380273128828,-0.0004059999999981301,2331.718570343862

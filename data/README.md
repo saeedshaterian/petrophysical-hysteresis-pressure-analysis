@@ -1,75 +1,74 @@
 # Experimental Data
 
-This directory contains the experimental data used for the computational analysis of petrophysical responses to hydrostatic pressure.
+## Data provenance
 
-## Data Source
+The data originate from experimental measurements associated with an MSc
+research project in Petroleum Engineering. The laboratory research examined
+pressure-dependent petrophysical behavior in carbonate reservoir-rock samples
+from oil and gas reservoirs in southwestern Iran.
 
-The dataset is derived from experimental measurements conducted as part of an MSc research project in Petroleum Engineering.
+This repository provides a post-hoc computational analysis of selected
+experimental measurements. The Python workflow did not generate the original
+laboratory measurements.
 
-The original experimental work investigated changes in petrophysical properties of carbonate reservoir-rock samples under controlled hydrostatic pressure conditions.
+## Current datasets
 
-The present GitHub repository provides a post-hoc computational analysis of selected experimental data.
+### B9 petrophysical data
 
-## Current Dataset
+`experimental_data.csv` contains 72 rows for sample B9, covering five stages:
 
-The current `experimental_data.csv` file contains measurements for sample **B9** during the initial hydrostatic-pressure loading stage.
+| Stage | Rows | Description |
+|---|---:|---|
+| `initial_loading` | 8 | Initial hydrostatic loading from 800 to 5700 psi |
+| `5000psi_loading` | 8 | Measurements associated with the prolonged 5000 psi stage |
+| `rest_after_5000psi` | 24 | Recovery measurements at three recorded rest times |
+| `7000psi_loading` | 8 | Measurements associated with the prolonged 7000 psi stage |
+| `rest_after_7000psi` | 24 | Recovery measurements at three recorded rest times |
 
-The data include measurements at hydrostatic pressures ranging from **800 to 5700 psi**.
+Each recovery stage contains eight pressure observations at each of three
+recorded rest times. These are repeated observations across pressure conditions,
+not independent rock samples.
 
-## Data Columns
+The recorded rest times are 26, 294, and 381 hours after the 5000 psi stage,
+and 96, 197, and 730 hours after the 7000 psi stage.
 
-| Column            | Description                                             | Unit  |
-| ----------------- | ------------------------------------------------------- | ----- |
-| `sample`          | Rock sample identifier                                  | —     |
-| `pressure_psi`    | Applied hydrostatic pressure                            | psi   |
-| `porosity_pct`    | Measured porosity                                       | %     |
-| `permeability_mD` | Measured permeability                                   | mD    |
-| `pore_volume_cc`  | Measured pore volume                                    | cm³   |
-| `stage`           | Experimental pressure/loading stage                     | —     |
-| `rest_time_hr`    | Rest or relaxation time associated with the measurement | hours |
+### B6 acoustic and elastic data
 
-## Sample B9
+`b6_acoustic_elastic_properties.csv` is a separate dataset used for acoustic
+and elastic-property analysis. It must not be treated as part of the B9
+petrophysical dataset.
 
-Sample B9 is a carbonate reservoir-rock sample investigated during the experimental program.
+## B9 data columns
 
-The current dataset represents the initial pressure-loading response before incorporating the subsequent long-term loading and recovery stages.
+| Column | Description | Unit |
+|---|---|---|
+| `sample` | Rock sample identifier | Dimensionless |
+| `pressure_psi` | Applied hydrostatic pressure | psi |
+| `porosity_pct` | Measured porosity | % |
+| `permeability_mD` | Measured permeability | mD |
+| `pore_volume_cc` | Recorded pore volume | cm^3 |
+| `stage` | Experimental loading or recovery stage | Dimensionless |
+| `rest_time_hr` | Recorded rest or recovery time, where applicable | hours |
 
-## Experimental Stages
+## Data integrity and interpretation
 
-The complete experimental program included multiple stages of pressure loading and relaxation/recovery.
+The CSV files are intended to preserve the values available in the source
+research records. Derived model predictions and synthetic numerical results
+are stored separately from the experimental input data.
 
-These stages are progressively being incorporated into the computational analysis, including:
+Model outputs must not be interpreted as laboratory measurements. Any missing,
+derived, or assumed values should be identified and documented by the relevant
+analysis script.
 
-* Initial hydrostatic pressure loading
-* Long-term loading at elevated pressure
-* Pressure release and relaxation
-* Recovery measurements after different rest periods
-* Additional high-pressure loading
-* Comparison of loading and recovery paths
+The recovery analyses compare measurements with the corresponding loading-stage
+values at matching pressure. The loading-stage anchor is a reference value,
+not a separate recovery measurement at time zero.
 
-## Data Integrity
+## Computational use
 
-The values in this repository are intended to preserve the experimental measurements as recorded in the original research material.
+The datasets support analysis of pressure-dependent porosity and permeability,
+recovery after prolonged loading, residual property changes, petrophysical
+hysteresis, and selected acoustic, elastic, and numerical-modeling questions.
 
-No synthetic measurements have been added to the experimental dataset.
-
-Where the original experimental record is incomplete or unavailable, the corresponding value will remain unidentified rather than being estimated without documentation.
-
-## Computational Use
-
-The data are analyzed using Python to investigate:
-
-* Porosity response to hydrostatic pressure
-* Permeability response to hydrostatic pressure
-* Pressure-dependent petrophysical changes
-* Recovery after pressure release
-* Irreversible changes in petrophysical properties
-* Petrophysical hysteresis
-
-The analysis scripts are located in the `analysis/` directory, while generated figures are stored in `figures/`.
-
-## Data Provenance
-
-The experimental data originate from the author's MSc research project in Petroleum Engineering.
-
-This repository is a computational extension of the original experimental research and is intended to improve reproducibility, visualization, and quantitative interpretation of the experimental results.
+Analysis scripts are located in `analysis/`, figures and numerical-result
+files in `figures/`, and supporting workflow documentation in `methodology/`.

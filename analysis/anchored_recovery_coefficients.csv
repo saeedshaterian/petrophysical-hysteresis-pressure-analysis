@@ -1,0 +1,9 @@
+stage,target,coefficient,value
+rest_after_5000psi,delta_porosity_pp,log_time,-0.011762523210401377
+rest_after_5000psi,delta_porosity_pp,pressure_norm_x_log_time,0.004863905935722003
+rest_after_5000psi,log_permeability_ratio,log_time,0.01807812456711975
+rest_after_5000psi,log_permeability_ratio,pressure_norm_x_log_time,0.001577252336497354
+rest_after_7000psi,delta_porosity_pp,log_time,0.07172029371769151
+rest_after_7000psi,delta_porosity_pp,pressure_norm_x_log_time,-0.007308576388018283
+rest_after_7000psi,log_permeability_ratio,log_time,0.054872609296957774
+rest_after_7000psi,log_permeability_ratio,pressure_norm_x_log_time,-0.009876596058537261

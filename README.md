@@ -1,316 +1,189 @@
-# Petrophysical Hysteresis and Pressure-Dependent Rock Properties
+# Pressure-History-Dependent Petrophysical Hysteresis in Carbonate Reservoir Rocks
 
 ## Overview
 
-This repository presents a **post-hoc computational analysis of experimental data generated during my MSc research in Petroleum Engineering**.
+This repository contains a computational extension of experimental research conducted during my MSc in Petroleum Engineering. It investigates pressure-dependent changes, hysteresis, recovery, and residual loss in the petrophysical properties of carbonate reservoir rocks.
 
-The original experimental study investigated the pressure-dependent and hysteretic behavior of petrophysical properties in carbonate reservoir rocks. This GitHub project extends that research by organizing the experimental data into a reproducible dataset and applying Python-based analysis to quantify pressure-related changes, recovery, and residual property loss.
+The project combines experimental-data analysis, constitutive and recovery-law fitting, temporal model comparison, and exploratory finite element method (FEM) simulations.
 
-The main computational analysis currently focuses on **sample B9** and examines the response of porosity and permeability to hydrostatic pressure loading, prolonged high-pressure exposure, and subsequent recovery periods.
+**The numerical models are research extensions of laboratory observations. They do not replace the original experiments, and their predictions should not be interpreted as independently validated physical results unless explicitly demonstrated.**
 
-> **Important:** The Python analysis presented here is a computational extension of the original experimental research. The original laboratory experiments were not performed using this Python workflow.
+## Research Background
 
----
+**MSc in Petroleum Engineering, Drilling and Production**
+Islamic Azad University, Science and Research Branch, Tehran, Iran
+Thesis completed in Fall 1396 (2017)
 
-## Research Context
+The underlying experimental research investigated hysteresis in reservoir-rock petrophysical properties under changes in hydrostatic pressure and drilling mud weight. The research involved carbonate limestone core samples from oil and gas reservoirs in southwest Iran, in collaboration with the Research Institute of Petroleum Industry (RIPI).
 
-**MSc Petroleum Engineering — Drilling and Production**
-Islamic Azad University, Science and Research Branch, Tehran
-MSc thesis, Fall 1396 (2017)
+The experimental program included CMS measurements, CT imaging, SEM/EDAX characterization, acoustic measurements, and selected mechanical tests.
 
-The underlying research investigated residual and hysteretic changes in reservoir-rock petrophysical properties following pressure variations.
+## Research Objectives
 
-The experimental program involved carbonate reservoir-rock samples and examined the effects of hydrostatic pressure loading and subsequent relaxation/recovery on properties including:
+The computational work aims to:
 
-* Porosity
-* Permeability
-* Pore volume
-* Pore compressibility
-* Acoustic properties
-* Selected mechanical properties
-
-The experimental work included measurements using a **CMS device**, together with CT imaging, SEM/EDAX characterization, acoustic measurements, and selected mechanical tests.
-
----
-
-## Research Objective
-
-The computational extension aims to quantify how pressure history affects reservoir-rock properties and to distinguish between:
-
-1. Initial pressure-dependent changes
-2. Property changes following prolonged high-pressure loading
-3. Partial recovery during rest periods
-4. Residual or irreversible property loss
-
-A particular focus is placed on comparing **porosity and permeability responses**, since changes in these properties may not occur at the same magnitude or rate.
-
----
+- Quantify pressure-dependent changes in porosity and permeability.
+- Evaluate the effects of prolonged high-pressure exposure.
+- Characterize partial recovery and residual property loss during relaxation.
+- Compare alternative recovery laws and temporal models.
+- Investigate constitutive relationships between pressure history and petrophysical properties.
+- Develop and examine FEM-based representations of pressure-dependent rock behavior.
+- Assess model sensitivity and identify the additional validation needed for reliable physical interpretation.
 
 ## Experimental Data
 
-The current dataset contains measurements for carbonate sample **B9**.
+### B9 petrophysical dataset
 
-The CMS measurements include pressure stages from:
+`data/experimental_data.csv` contains the experimental dataset used for the principal B9 analyses.
 
-**800 to 5700 psi**
+The dataset includes measurements associated with:
 
-The experimental sequence also includes prolonged exposure to elevated hydrostatic pressure followed by recovery/rest periods.
+- Initial hydrostatic loading from 800 to 5700 psi
+- Prolonged loading at 5000 psi
+- Recovery following 5000 psi loading
+- Prolonged loading at 7000 psi
+- Recovery following 7000 psi loading
 
-The current B9 dataset contains measurements associated with:
+The recorded variables include sample identifier, pressure, porosity, permeability, pore volume, experimental stage, and recovery time where applicable.
 
-* Initial loading
-* Prolonged 5000 psi loading
-* Recovery after 5000 psi loading
-* Prolonged 7000 psi loading
-* Recovery after 7000 psi loading
+### B6 acoustic and elastic properties
 
-The detailed dataset and provenance are documented in:
+`data/b6_acoustic_elastic_properties.csv` contains a separate dataset used in the acoustic and elastic-property analysis.
 
-`data/README.md`
+The two datasets serve different analytical purposes and should not be treated as interchangeable.
 
----
+See `data/README.md` for data descriptions and provenance.
+
+## Key Experimental Findings: Sample B9
+
+At the comparison pressure of 5700 psi, the recorded porosity decreased from 13.632% before the prolonged 7000 psi loading sequence to 12.535% afterward, corresponding to an 8.05% relative reduction.
+
+Permeability decreased from 0.822 mD to 0.445 mD, a relative reduction of 45.86%.
+
+The recovery observations show that porosity and permeability did not recover to the same extent.
+
+| Recovery time | Porosity recovered | Residual porosity loss | Permeability recovered | Residual permeability loss |
+|---|---:|---:|---:|---:|
+| 96 h | 34.09% | 5.30% | 29.97% | 32.12% |
+| 197 h | 34.28% | 5.29% | 33.69% | 30.41% |
+| 730 h | 33.91% | 5.32% | 38.20% | 28.35% |
+
+These results describe the available B9 observations and should not be generalized to all carbonate reservoir rocks.
 
 ## Computational Workflow
 
-The current Python workflow:
-
-1. Loads the experimental dataset using Pandas
-2. Filters the B9 sample
-3. Groups measurements by experimental stage
-4. Visualizes pressure-dependent porosity and permeability
-5. Quantifies property reduction after prolonged pressure loading
-6. Calculates recovery during rest periods
-7. Calculates residual property loss
-8. Compares porosity and permeability recovery
-9. Calculates an experimental-data-based irreversibility index
-
-### Main analysis script
+### 1. Experimental-data analysis
 
 `analysis/pressure_response.py`
 
----
+Processes the experimental data and generates plots and quantitative comparisons of pressure-dependent porosity and permeability changes.
 
-## Key Quantitative Results — B9
+### 2. Constitutive and recovery models
 
-The following results are calculated at **5700 psi**.
+The analysis scripts explore relationships between petrophysical properties, pressure history, and recovery behavior. They include:
 
-### Response after prolonged 7000 psi loading
+- `analysis/fit_petrophysical_constitutive_law.py`
+- `analysis/fit_recovery_law.py`
+- `analysis/fit_anchored_recovery_model.py`
+- `analysis/history_state_model.py`
+- `analysis/internal_state_model.py`
+- `analysis/compare_recovery_models.py`
+- `analysis/compare_recovery_models_fair_holdout.py`
+- `analysis/compare_temporal_models.py`
 
-| Property     |  Initial | After 7000 psi | Relative reduction |
-| ------------ | -------: | -------------: | -----------------: |
-| Porosity     |  13.632% |        12.535% |              8.05% |
-| Permeability | 0.822 mD |       0.445 mD |             45.86% |
+Associated CSV files contain model coefficients, predictions, comparison metrics, and selected holdout results.
 
-The results indicate a substantially larger relative change in permeability than in porosity for this sample and pressure history.
+### 3. FEM-based numerical investigation
 
----
+The FEM-related scripts explore pressure-dependent mechanical behavior, loading history, recovery inputs, time-dependent responses, and mesh sensitivity.
 
-## Recovery Behavior
+Representative scripts include:
 
-Recovery was evaluated after rest periods of 96, 197, and 730 hours.
+- `analysis/fem_model.py`
+- `analysis/fem_hysteresis_model.py`
+- `analysis/fem_history_fem.py`
+- `analysis/fem_pressure_sweep.py`
+- `analysis/fem_history_time_sweep.py`
+- `analysis/fem_mesh_convergence.py`
+- `analysis/fem_independent_validation.py`
 
-### Porosity
+These numerical investigations are ongoing. Numerical convergence, agreement with an analytical benchmark, and independent physical validation are distinct requirements; success in one does not establish the others.
 
-| Rest period | Recovery | Residual loss |
-| ----------: | -------: | ------------: |
-|        96 h |   34.09% |         5.30% |
-|       197 h |   34.28% |         5.29% |
-|       730 h |   33.91% |         5.32% |
+In particular, the independent-validation results should be considered preliminary until the boundary conditions, reference solution, displacement errors, and equilibrium checks have been reviewed and the relevant tests pass.
 
-For B9, porosity recovery remained approximately stable over the investigated rest periods.
 
-### Permeability
+## Repository Structure
 
-| Rest period | Recovery | Residual loss |
-| ----------: | -------: | ------------: |
-|        96 h |   29.97% |        32.12% |
-|       197 h |   33.69% |        30.41% |
-|       730 h |   38.20% |        28.35% |
+The repository is organized into the following main directories and files:
 
-Permeability recovery increased over the investigated rest period, while a substantial residual loss remained after 730 hours.
+```text
+petrophysical-hysteresis-pressure-analysis/
+|-- analysis/
+|   |-- pressure_response.py
+|   |-- fit_petrophysical_constitutive_law.py
+|   |-- fit_recovery_law.py
+|   |-- fit_anchored_recovery_model.py
+|   |-- history_state_model.py
+|   |-- internal_state_model.py
+|   |-- compare_recovery_models.py
+|   |-- compare_recovery_models_fair_holdout.py
+|   |-- compare_temporal_models.py
+|   |-- fem_model.py
+|   |-- fem_hysteresis_model.py
+|   |-- fem_history_fem.py
+|   |-- fem_pressure_sweep.py
+|   |-- fem_history_time_sweep.py
+|   |-- fem_mesh_convergence.py
+|   `-- fem_independent_validation.py
+|-- data/
+|   |-- experimental_data.csv
+|   |-- b6_acoustic_elastic_properties.csv
+|   `-- README.md
+|-- figures/
+|-- methodology/
+|   `-- experimental_workflow.md
+|-- reports/
+|   `-- recovery_model_selection.md
+|-- requirements.txt
+|-- .gitignore
+`-- README.md
+```
 
----
+The `analysis/` directory contains analysis scripts and associated numerical outputs. The `data/` directory contains the experimental datasets and their documentation. The `figures/` directory stores visualizations and numerical-result files, while `reports/` contains written analyses of model comparisons and limitations.
 
-## Irreversibility Index
+## Installation
 
-For this project, an **experimental-data-based irreversibility index** is used to quantify the fraction of the pressure-induced change that remains unrecovered after a specified rest period.
+Python 3.11 or a compatible environment is recommended, subject to verification of the installed package versions.
 
-For the 730-hour recovery stage:
+Install the required libraries with:
 
-| Property     | Irreversibility Index |
-| ------------ | --------------------: |
-| Porosity     |                 5.32% |
-| Permeability |                28.35% |
+```bash
+python -m pip install -r requirements.txt
+```
 
-The index is defined here as:
+The dependencies include NumPy, Pandas, SciPy, Matplotlib, and scikit-fem.
 
-$$
-II =
-\frac{Initial - Recovered}
-{Initial - High\ Pressure}
-\times 100
-$$
+## Reproducing the Initial B9 Analysis
 
-where the values are evaluated at the same pressure condition.
-
-A value of 0% represents complete recovery relative to the defined initial reference, whereas larger values indicate a larger unrecovered fraction.
-
-This index is introduced specifically for the computational analysis in this repository and should not be interpreted as a universally standardized hysteresis metric.
-
----
-## Figures
-
-### Pressure response
-
-![B9 Porosity Pressure Response](figures/B9_porosity_pressure.png)
-
-![B9 Permeability Pressure Response](figures/B9_permeability_pressure.png)
-
-### Hysteresis and pressure-history response
-
-![B9 Porosity Hysteresis](figures/B9_porosity_hysteresis.png)
-
-![B9 Permeability Hysteresis](figures/B9_permeability_hysteresis.png)
-
-### Recovery analysis
-
-![B9 Recovery Comparison](figures/B9_recovery_comparison.png)
-
-![B9 Residual Loss Comparison](figures/B9_residual_loss_comparison.png)
-
-## Interpretation
-
-The current B9 analysis shows that the response of permeability to the investigated pressure history was substantially larger than the corresponding porosity response.
-
-Following prolonged 7000 psi loading:
-
-* Porosity decreased by 8.05%.
-* Permeability decreased by 45.86%.
-
-After 730 hours of recovery:
-
-* Approximately 34% of the porosity reduction had recovered.
-* Approximately 38% of the permeability reduction had recovered.
-* Residual losses remained in both properties.
-
-For this sample, the results therefore demonstrate that **petrophysical recovery is incomplete and property-specific**.
-
-The analysis also suggests that monitoring porosity alone may not fully represent changes in flow-related properties such as permeability.
-
-These observations are specific to the available B9 dataset and experimental pressure history and should not be generalized to all carbonate reservoir rocks without further data.
-
----
-
-## Reproducibility
-
-The analysis is designed to be reproducible from the CSV dataset.
-
-### Requirements
-
-* Python 3
-* Pandas
-* Matplotlib
-
-### Run the analysis
-
-From the project root:
+From the repository root, run:
 
 ```bash
 python analysis/pressure_response.py
 ```
 
-The script reads:
+Other scripts perform separate modeling and comparison tasks. Their input paths, outputs, and execution requirements should be checked before running them individually. Not every script is intended to run as part of a single end-to-end workflow.
 
-```text
-data/experimental_data.csv
-```
+## Limitations and Current Development
 
-and generates figures in:
+- The experimental dataset is limited to the measurements available for the corresponding samples and stages.
+- Model fitting and holdout comparisons do not, by themselves, establish generalization to other reservoir rocks.
+- Numerical FEM outputs depend on the selected geometry, material assumptions, constitutive relations, boundary conditions, and loading implementation.
+- Mesh sensitivity and analytical benchmarks are useful numerical checks but are not substitutes for experimental validation.
+- FEM independent validation remains a work in progress.
+- The numerical workflow and documentation will be refined as the models and validation tests are completed.
 
-```text
-figures/
-```
+## Research Direction
 
----
+The longer-term objective is to develop a reproducible framework connecting experimental petrophysical hysteresis, pressure-history-dependent constitutive behavior, time-dependent recovery, and numerical rock-mechanics modeling.
 
-## Repository Structure
-
-```text
-petrophysical-hysteresis-pressure-analysis/
-│
-├── README.md
-│
-├── data/
-│   ├── README.md
-│   └── experimental_data.csv
-│
-├── analysis/
-│   └── pressure_response.py
-│
-├── figures/
-│   ├── B9_porosity_pressure.png
-│   ├── B9_permeability_pressure.png
-│   ├── B9_porosity_hysteresis.png
-│   ├── B9_permeability_hysteresis.png
-│   ├── B9_recovery_comparison.png
-│   └── B9_residual_loss_comparison.png
-│
-└── methodology/
-    └── experimental_workflow.md
-```
-
----
-
-## Research Relevance
-
-This project connects experimental petroleum-engineering research with computational analysis in areas including:
-
-* Petrophysics
-* Rock physics
-* Rock mechanics and geomechanics
-* Reservoir characterization
-* Pressure-dependent rock properties
-* Fluid–rock interaction
-* Subsurface monitoring
-* Geothermal reservoir behavior
-* CO₂ storage and underground gas storage
-
-The computational workflow also provides a foundation for extending the analysis to additional samples and experimental variables.
-
----
-
-## Planned Extensions
-
-Future development may include:
-
-* Analysis of samples A2, A3, and B6
-* Automated comparison of samples
-* Pressure-normalized property changes
-* Pore compressibility analysis
-* Quantitative comparison of recovery kinetics
-* Cross-property relationships between porosity and permeability
-* Integration of additional experimental measurements
-* Statistical analysis of sample-to-sample variability
-* Improved visualization of pressure-history effects
-
----
-
-## Data Provenance
-
-The experimental data originate from my MSc research in Petroleum Engineering.
-
-The laboratory measurements and experimental methodology belong to the original MSc research work. This repository reorganizes selected experimental data and applies a new computational analysis workflow for reproducibility, visualization, and further research development.
-
-Detailed methodological information is provided in:
-
-`methodology/experimental_workflow.md`
-
----
-
-## Author
-
-**Saeed Shaterian Bidgoli**
-
-Petroleum Engineer | Reservoir Characterization | Rock Mechanics | Petrophysics | Subsurface Data Analytics
-
-Research interests include pressure-dependent reservoir behavior, geomechanics, petrophysics, subsurface monitoring, geothermal energy, CO₂ storage, and computational analysis of subsurface data.
+The repository is intended to document the development process, preserve analytical results, and make the assumptions and limitations of the work transparent.

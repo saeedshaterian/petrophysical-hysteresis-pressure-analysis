@@ -1,0 +1,3 @@
+property,R_inf,tau_hr,RMSE,n_observations
+Porosity (%),0.35000000000000003,1.0,0.03656491373799035,24
+Permeability (mD),0.36,35.21005201684521,0.010464447644131026,24
